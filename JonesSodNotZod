@@ -22,6 +22,155 @@ public class JonesMainClass {
 	public static final double ITEM_PRICE_BASIC = 15.95;
 	public static final int RESET_VALUE = 0;
 
+	
+
+
+	public static void main (String[] args )
+	{
+
+		Scanner input = new Scanner(System.in);
+
+		//local variables
+		String userName ="";
+		String itemName ="";
+		String discountName ="";
+		
+		double itemPrice = 0.0;
+		double purchaseAmt = 0;
+		
+		int howMany = 0;
+		int memberCount = 0;
+		int seniorCount = 0;
+		int premiumCount= 0;
+		int specialCount = 0;
+		int basicCount = 0;
+		int noDiscountCount = 0;
+		
+		char rateSelection = ' ';
+		char itemSelection = ' ';
+		
+		double discountRate = 0.0;
+		double discountAmount = 0.0;
+		double discountPrice = 0.0;
+		double subTotal = 0.0;
+		double tax = 0.0;
+		double totalCost = 0.0;
+		double grandTotal = 0.0;
+		
+
+		//displaying things to be summoned
+		displayWelcomeBanner();
+
+
+		//converting returns
+		userName = getUserName(input);
+		rateSelection = validateMainMenu(input);
+
+
+
+
+		//while selections
+		while (rateSelection !='Q')
+		{
+
+			itemSelection = validateItemMenu(input);
+			
+			while(itemSelection !='R')
+			{
+				
+			howMany = validateHowMany(input);
+
+			if ( rateSelection == 'A')
+			{
+				discountName = DISCOUNT_NAME_MEMBER;
+				discountRate = DISCOUNT_RATE_MEMBER;
+				memberCount++;
+			}
+			else if ( rateSelection == 'B')
+			{
+				discountName = DISCOUNT_NAME_SENIOR;
+				discountRate = DISCOUNT_RATE_SENIOR;
+				seniorCount++;
+			}
+
+			else 
+			{
+				discountName = DISCOUNT_NAME_NONE;
+				discountRate = DISCOUNT_RATE_NONE;
+				noDiscountCount++;
+			}
+
+			if ( itemSelection == 'A')
+			{
+				itemName = ITEM_NAME_PREMIUM;
+				itemPrice = ITEM_PRICE_PREMIUM;
+				premiumCount++;
+
+			}
+
+			else if ( itemSelection == 'B')
+			{
+				itemName = ITEM_NAME_SPECIAL;
+				itemPrice = ITEM_PRICE_SPECIAL;
+				specialCount++;
+			}
+
+			else
+			{
+				itemName = ITEM_NAME_BASIC;
+				itemPrice = ITEM_PRICE_BASIC;
+				basicCount++;
+			}
+
+
+			//Assignments
+
+			discountAmount = itemPrice * discountRate;
+			discountPrice = itemPrice - discountAmount;
+			purchaseAmt = howMany * discountPrice;
+			subTotal = subTotal + purchaseAmt;
+
+
+			//displaying more things.
+			displayItemReceipt(itemName, itemPrice, discountName, discountRate, discountAmount, discountPrice, howMany, purchaseAmt, subTotal);
+
+			//converting returns
+			itemSelection = validateItemMenu(input);
+
+
+			}//end of while !=R
+			
+			tax = subTotal * TAX_RATE;
+			totalCost = subTotal + tax;  
+			grandTotal = grandTotal + totalCost;
+			
+			displayOrderTotal(userName, subTotal, tax, totalCost);
+			
+			subTotal = RESET_VALUE;
+			
+			rateSelection = validateMainMenu(input);
+			
+		}// while for rateSelection != Q
+
+
+		//displaying more things
+
+		displayFarewellMessage();
+
+		//more then 0 for final report
+		if(grandTotal > 0.0)
+		{
+
+			displayFinalReport(memberCount, seniorCount, noDiscountCount, premiumCount, specialCount, basicCount, grandTotal);
+
+		}
+
+
+
+
+		input.close();
+	}//End of Main Method
+
 	//making itemReceipt
 		public static void displayItemReceipt(String borrowedItemName, double borrowedItemPrice, String borrowedDiscountName, double borrowedDiscountRate, double borrowedDiscountAmount, double borrowedDiscountPrice, int borrowedHowMany, double borrowedSubTotal, double borrowedPurchaseAmt)
 
@@ -213,155 +362,5 @@ public class JonesMainClass {
 
 		return localHowMany;
 	}//End of void
-
-
-	public static void main (String[] args )
-	{
-
-		Scanner input = new Scanner(System.in);
-
-		//local variables
-		String userName ="";
-		String itemName ="";
-		String discountName ="";
-		
-		double itemPrice = 0.0;
-		double purchaseAmt = 0;
-		
-		int howMany = 0;
-		int memberCount = 0;
-		int seniorCount = 0;
-		int premiumCount= 0;
-		int specialCount = 0;
-		int basicCount = 0;
-		int noDiscountCount = 0;
-		
-		char rateSelection = ' ';
-		char itemSelection = ' ';
-		
-		double discountRate = 0.0;
-		double discountAmount = 0.0;
-		double discountPrice = 0.0;
-		double subTotal = 0.0;
-		double tax = 0.0;
-		double totalCost = 0.0;
-		double grandTotal = 0.0;
-		
-
-		//displaying things to be summoned
-		displayWelcomeBanner();
-
-
-		//converting returns
-		userName = getUserName(input);
-		rateSelection = validateMainMenu(input);
-
-
-
-
-		//while selections
-		while (rateSelection !='Q')
-		{
-
-			itemSelection = validateItemMenu(input);
-			
-			while(itemSelection !='R')
-			{
-				
-			howMany = validateHowMany(input);
-
-			if ( rateSelection == 'A')
-			{
-				discountName = DISCOUNT_NAME_MEMBER;
-				discountRate = DISCOUNT_RATE_MEMBER;
-				memberCount++;
-			}
-			else if ( rateSelection == 'B')
-			{
-				discountName = DISCOUNT_NAME_SENIOR;
-				discountRate = DISCOUNT_RATE_SENIOR;
-				seniorCount++;
-			}
-
-			else 
-			{
-				discountName = DISCOUNT_NAME_NONE;
-				discountRate = DISCOUNT_RATE_NONE;
-				noDiscountCount++;
-			}
-
-			if ( itemSelection == 'A')
-			{
-				itemName = ITEM_NAME_PREMIUM;
-				itemPrice = ITEM_PRICE_PREMIUM;
-				premiumCount++;
-
-			}
-
-			else if ( itemSelection == 'B')
-			{
-				itemName = ITEM_NAME_SPECIAL;
-				itemPrice = ITEM_PRICE_SPECIAL;
-				specialCount++;
-			}
-
-			else
-			{
-				itemName = ITEM_NAME_BASIC;
-				itemPrice = ITEM_PRICE_BASIC;
-				basicCount++;
-			}
-
-
-			//Assignments
-
-			discountAmount = itemPrice * discountRate;
-			discountPrice = itemPrice - discountAmount;
-			purchaseAmt = howMany * discountPrice;
-			subTotal = subTotal + purchaseAmt;
-
-
-			//displaying more things.
-			displayItemReceipt(itemName, itemPrice, discountName, discountRate, discountAmount, discountPrice, howMany, purchaseAmt, subTotal);
-
-			//converting returns
-			itemSelection = validateItemMenu(input);
-
-
-			}//end of while !=R
-			
-			tax = subTotal * TAX_RATE;
-			totalCost = subTotal + tax;  
-			grandTotal = grandTotal + totalCost;
-			
-			displayOrderTotal(userName, subTotal, tax, totalCost);
-			
-			subTotal = RESET_VALUE;
-			
-			rateSelection = validateMainMenu(input);
-			
-		}// while for rateSelection != Q
-
-
-		//displaying more things
-
-		displayFarewellMessage();
-
-		//more then 0 for final report
-		if(grandTotal > 0.0)
-		{
-
-			displayFinalReport(memberCount, seniorCount, noDiscountCount, premiumCount, specialCount, basicCount, grandTotal);
-
-		}
-
-
-
-
-		input.close();
-	}//End of Main Method
-
-	
-
 
 }//End of class
